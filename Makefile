@@ -1,6 +1,7 @@
-VERSION=1.7
-RELEASE=2
-RPMNAME=virtual-java-$(VERSION)-$(RELEASE).noarch.rpm
+VERSION ?= 1.6.0
+RELEASE ?= 2
+PACKAGE ?= virtual-java
+RPMNAME=$(PACKAGE)-$(VERSION)-$(RELEASE).noarch.rpm
 
 .PHONY: all
 all: dist/$(RPMNAME)
@@ -13,11 +14,11 @@ clean:
 dist/$(RPMNAME): work/RPMS/noarch/$(RPMNAME) dist
 	cp work/RPMS/noarch/$(RPMNAME) dist/$(RPMNAME)
 
-work/RPMS/noarch/$(RPMNAME): work/BUILD work/RPMS/noarch work/SPECS/virtual-java.spec
-	rpmbuild -bb --define="_topdir ${PWD}/work" work/SPECS/virtual-java.spec
+work/RPMS/noarch/$(RPMNAME): work/BUILD work/RPMS/noarch work/SPECS/$(PACKAGE).spec
+	rpmbuild -bb --define="_topdir ${PWD}/work" work/SPECS/$(PACKAGE).spec
 
-work/SPECS/virtual-java.spec: work/SPECS virtual-java.spec
-	cat virtual-java.spec | sed -e s/%VERSION%/$(VERSION)/g | sed -e s/%RELEASE%/$(RELEASE)/g > work/SPECS/virtual-java.spec
+work/SPECS/$(PACKAGE).spec: work/SPECS $(PACKAGE).spec
+	cat $(PACKAGE).spec | sed -e "s/%VERSION%/$(VERSION)/g; s/%RELEASE%/$(RELEASE)/g" > work/SPECS/$(PACKAGE).spec
 
 dist:
 	if [ ! -d dist ]; then mkdir -p dist; fi

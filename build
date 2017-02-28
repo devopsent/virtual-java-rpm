@@ -3,4 +3,4 @@
 which make >/dev/null || { echo 'make not in path - yum install make'; exit 1; }
 which rpmbuild >/dev/null || { echo 'rpmbuild not in path - yum install rpmdevtools'; exit 1; }
 
-make
+make "${@}"
