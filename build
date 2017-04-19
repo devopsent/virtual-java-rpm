@@ -3,4 +3,8 @@
 which make >/dev/null || { echo 'make not in path - yum install make'; exit 1; }
 which rpmbuild >/dev/null || { echo 'rpmbuild not in path - yum install rpmdevtools'; exit 1; }
 
+export PACKAGE="${PACKAGE?"cannot run with PACKAGE undefined"}"
+export VERSION="${VERSION?"cannot run with VERSION undefined"}"
+export RELEASE="${RELEASE?"cannot run with RELEASE undefined"}"
+
 make "${@}"
